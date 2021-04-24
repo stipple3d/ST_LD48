@@ -1,0 +1,25 @@
+:root{
+    --mainBG: #555555;
+    --canvasBG: #333333;
+
+    --baseFont: 'Arial', sans-serif;
+
+    font-size: 62.5%;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: var(--mainBG);
+    text-align: center;
+}
+
+canvas{
+    border: 1px solid white;
+    background-color: var(--canvasBG);
+    margin: 5rem auto;
+}
