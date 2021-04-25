@@ -14,4 +14,9 @@ const config = {
 	initSceneIndex: 0,
 	gameFPS: 60,
 	framesToCompleteTileMove: 30,
+	//settings for min/max sizes for tile display
+	minMapTileSize: 4,
+	maxMapTileSize: 16,
+	transitionTickDuration: 0.2,
+	
 };

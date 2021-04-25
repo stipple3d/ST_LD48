@@ -17,29 +17,33 @@ class MainMenuScene extends Scene{
 	keyPressHandler = (e) =>{
 
         console.log('KEY PRESSED: ' + e.key);
-
-		//TODO: add a C to continue key handling
-		//		(only if there was a previous save)
 		
 		if(e.key == 'p'){
 			//PLAY SELECTED
 
-            //TODO: set initial roomX, roomY coords?
+            //Init all player location, direction and extents data to defaults
 
             playerRoomX = 0;
             playerRoomY = 0;
+
             playerMoveDir = '';
+
+			playerExtentsMinX = 0;
+			playerExtentsMaxX = 0;
+			playerExtentsMinY = 0;
+			playerExtentsMaxY = 0;
+
+			//Init discovered rooms array & mark the initial tile as discovered
+			discoveredRooms = [];
+			discoveredRooms.push({x: 0, y: 0});
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'room'});
-
-           
 		}
-
 	}
 
 	update = function(_deltaTime){
-		console.log('MainMenuScene: update Running');
+		//console.log('MainMenuScene: update Running');
 	}
 
 	render = function(){

@@ -23,59 +23,49 @@ class RoomScene extends Scene{
             return;
 
         console.log('KEY PRESSED: ' + e.key);
-
-		//TODO: add a C to continue key handling
-		//		(only if there was a previous save)
 		
 		if(e.key == 'm'){
 			//MENU SELECTED
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'menu'});
-
-           
 		}
 		else if(e.key == 'w'){
 			//ROOM UP SELECTED
 
             playerMoveDir = 'up';
+			this.directionChosen = true;
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'roomTransition'});
-
-           
 		}
         else if(e.key == 'a'){
 			//ROOM LEFT SELECTED
 
             playerMoveDir = 'left';
+			this.directionChosen = true;
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'roomTransition'});
-
-           
 		}
         else if(e.key == 's'){
 			//ROOM DOWN SELECTED
 
             playerMoveDir = 'down';
+			this.directionChosen = true;
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'roomTransition'});
-
-           
 		}
         else if(e.key == 'd'){
 			//ROOM RIGHT SELECTED
 
             playerMoveDir = 'right';
+			this.directionChosen = true;
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'roomTransition'});
-
-           
 		}
-
 	}
 
 	update = function(_deltaTime){

@@ -1,17 +1,23 @@
-
-
-
+//REFS to game components
 let canvas, context, sceneManager, gameLoop;
 
+//----------------------
+//PLAYER LOCATION, DIRECTION, DISCOVERED ROOMS & EXTENTS DATA
 //player room coords in the world (will be modified by the game as exits are used)
-let playerRoomX = 0;
-let playerRoomY = 0;
-let playerMoveDir = '';
+let playerRoomX, playerRoomY;
+//chosen direction (triggered by a room exit on that side of the room)
+let playerMoveDir;
+
+//min/max index values of the discovered world
+let playerExtentsMinX, playerExtentsMaxX, playerExtentsMinY, playerExtentsMaxY;
+
+//an array of objects (each with an X/Y value) representing all the rooms the player has "landed" in
+let discoveredRooms;
+//----------------------
 
 //for now, importing the tileMap image and storing it globally
 //(will be moved to an assetMgr eventually)
 let tileMapImage;
-
 
 window.addEventListener('DOMContentLoaded', (e) =>{
 	canvas = document.getElementById('game');
@@ -20,7 +26,7 @@ window.addEventListener('DOMContentLoaded', (e) =>{
     // TOTO: determine if this is needed?
     context.imageSmoothingEnabled = false;
 
-    //TODO: implement loading tilemap
+    //TODO: implement loading tilemap (skipping it for now, since we haven't got that yet)
     // LoadTileMap();
     Setup();
 });
@@ -47,6 +53,7 @@ function Setup(){
 	}
 	//init/store an instance of the gameLoop in the Global REF
 	gameLoop = new GameLoop({fps: config.gameFPS, renderCallback: sceneManager.render, updateCallback: sceneManager.update});
+
 	//load the first scene
 	//TODO: specify this in the config file?
 	sceneManager.gotoScene({
@@ -55,20 +62,3 @@ function Setup(){
 	//start loop
 	gameLoop.startLoop();
 }
-/* const config = {
-	// dynamicCanvas: true,
-	// canvasID: "nesTimeTwoCanvas",
-	// canvasWidth: 512,//512
-	// canvasHeight: 480,//480
-	// canvasMode: "2d",
-	// canvasParent: "",
-	scenes: [
-		{name: "menu", class: MainMenuScene},
-		// {name: "newPlayer", class: NewPlayerScene},
-		// {name: "map", class: MapScene},
-		// {name: "battle", class: BattleScene}
-	],
-	initSceneIndex: 0,
-	gameFPS: 60,
-	framesToCompleteTileMove: 30,
-}; */
