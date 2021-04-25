@@ -17,9 +17,11 @@ const config = {
 	//settings for min/max sizes for tile display
 	minMapTileSize: 4,
 	maxMapTileSize: 64,
-	transitionTickDuration: 0.2,
+	transitionTickDuration: 0.12,
 	mapDisplayPadding: 10,
 };
+
+const unitDiagonalComponent = .70710678118;
 
 const roomData_lrud = [
 	0,0,0,0,1,1,1,0,0,0,0,

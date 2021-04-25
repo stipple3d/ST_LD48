@@ -164,7 +164,7 @@ class RoomTransitionScene extends Scene{
 			//add a completed tick
 			this.ticksComplete ++;
 			//check if all ticks have been completed
-			if(this.ticksComplete >= 24){
+			if(this.ticksComplete >= this.randomNumOfRoomsInRange + (this.maxMove *2)){
 
 				//set distDisplay to ACTUAL chosen number of rooms
 				this.distDisplay = this.randomNumOfRoomsInRange;
@@ -180,7 +180,16 @@ class RoomTransitionScene extends Scene{
 					playerRoomY += this.randomNumOfRoomsInRange;
 				
 				//mark the initial tile as discovered
-				discoveredRooms.push({x: playerRoomX, y: playerRoomY});
+				//(if it is not already marked as discovered)
+				let dupFound = false;
+				for(var dr = 0; dr < discoveredRooms.length; dr++){
+					if(discoveredRooms[dr].x == playerRoomX && discoveredRooms[dr].y == playerRoomY){
+						dupFound = true;
+						break;
+					}
+				}
+				if(!dupFound)
+					discoveredRooms.push({x: playerRoomX, y: playerRoomY});
 
 				//adjust min/max extents if necessary
 				if(playerRoomX < discoveredExtentsLeft)
@@ -253,6 +262,22 @@ class RoomTransitionScene extends Scene{
 
 		let xAdjustment, yAdjustment;
 
+		//display the number of potential move tiles from the array to match the value in
+		//this.distDisplay
+		for(var pm = 0; pm <= this.distDisplay; pm++){
+			if(pm != 0){
+
+				xAdjustment = this.potentialMoveTiles[pm-1].x - this.tempExtentsLeft;
+				yAdjustment = this.potentialMoveTiles[pm-1].y - this.tempExtentsUp;
+				
+				context.beginPath();
+				context.fillStyle = "grey";
+				context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
+				context.fill();
+			}
+		}
+
+
 		//loop through and draw each of the discovered rooms in correct place relative to map on screen
 		for(var dr = 0; dr < discoveredRooms.length; dr++){
 			xAdjustment = discoveredRooms[dr].x - this.tempExtentsLeft;
@@ -286,21 +311,12 @@ class RoomTransitionScene extends Scene{
 		context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2),(mapTileSize *.55), 0, Math.PI *2)
 		context.stroke();
 
-		//display the number of potential move tiles from the array to match the value in
-		//this.distDisplay
+		
 
-		for(var pm = 0; pm <= this.distDisplay; pm++){
-			if(pm != 0){
-
-				xAdjustment = this.potentialMoveTiles[pm-1].x - this.tempExtentsLeft;
-				yAdjustment = this.potentialMoveTiles[pm-1].y - this.tempExtentsUp;
-				
-				context.beginPath();
-				context.fillStyle = "grey";
-				context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
-				context.fill();
-			}
-		}
+		/* if(!this.displayComplete){
+			
+		} */
+		
 
 		//TEXT
 		
