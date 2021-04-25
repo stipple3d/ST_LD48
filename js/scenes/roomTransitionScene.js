@@ -138,10 +138,10 @@ class RoomTransitionScene extends Scene{
 
 	keyPressHandler = (e) =>{
 
-        //console.log('KEY PRESSED: ' + e.key);
+        //console.log('KEY PRESSED: ' + e.keyCode);
 		
-		if(this.displayComplete && e.key == 'r'){
-			//room SELECTED
+		if(this.displayComplete && e.keyCode == 32){
+			//CONTINUE SELECTED
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'room'});
@@ -272,11 +272,11 @@ class RoomTransitionScene extends Scene{
 				
 				context.beginPath();
 				context.fillStyle = "grey";
-				context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
+				// context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
+				context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2), mapTileSize /4, 0, Math.PI *2)
 				context.fill();
 			}
 		}
-
 
 		//loop through and draw each of the discovered rooms in correct place relative to map on screen
 		for(var dr = 0; dr < discoveredRooms.length; dr++){
@@ -325,7 +325,7 @@ class RoomTransitionScene extends Scene{
 			context.font = '20px Arial';
 			context.textAlign = 'center';
 			context.fillStyle = '#8ac80b';
-			context.fillText('GO TO ROOM  [ R ]', canvas.width /2, canvas.height -8);
+			context.fillText('CONTINUE [ SPACE ]', canvas.width /2, canvas.height -8);
 		}
 		
 		context.beginPath();

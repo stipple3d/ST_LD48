@@ -31,6 +31,16 @@ class RoomScene extends Scene{
 		this.topTriggerY = this.mapDisplayAreaTLY + (this.roomTileSize /2);
 		this.bottomTriggerY = (this.mapDisplayAreaTLY + this.mapDisplayAreaHeight) - (this.roomTileSize /2);
 
+		this.leftRoomBoundsX = this.mapDisplayAreaTLX + this.roomTileSize;
+		this.rightRoomBoundsX = (this.mapDisplayAreaTLX + this.mapDisplayAreaWidth) - this.roomTileSize;
+		this.topRoomBoundsY = this.mapDisplayAreaTLY + this.roomTileSize;
+		this.bottomRoomBoundsY = (this.mapDisplayAreaTLY + this.mapDisplayAreaHeight) - this.roomTileSize;
+
+		this.tbDoorLeftX = this.mapDisplayAreaTLX + (this.roomTileSize * 4);
+		this.tbDoorRightX = this.mapDisplayAreaTLX + (this.roomTileSize * 7);
+		this.sideDoorTopY = this.mapDisplayAreaTLY + (this.roomTileSize *3);
+		this.sideDoorBottomY = this.mapDisplayAreaTLY + (this.roomTileSize *6);
+
 		this.statusDisplayText = '';
 
 		this.xInput = 0;
@@ -172,32 +182,11 @@ class RoomScene extends Scene{
 		else if(this.xInput != 0 && this.yInput == 0){
 			//apply full speed in X axis
 			potMoveX = this.speedFactor * _deltaTime * this.xInput;
-
-			//TODO: check if player moving the potential would collide with something
-			//TODO: adjust as needed to keep player in bounds
-
-			if(potMoveX > 0){
-				//moving right
-			
-			}
-			else{
-				//moving left
-			}
-
-			//apply the resulting movement
-			this.playerPosX += potMoveX;
-			
 		}
 		//input in only Y axis
 		else if(this.xInput == 0 && this.yInput != 0){
 			//apply full speed in X axis
 			potMoveY = this.speedFactor * _deltaTime * this.yInput;
-
-			//TODO: check if player moving the potential would collide with something
-			//TODO: adjust as needed to keep player in bounds
-
-			//apply the resulting movement
-			this.playerPosY += potMoveY;
 		}
 		else{
 			//input in both X/Y axis (apply X/Y to equal full speed TOTAL)
@@ -209,17 +198,86 @@ class RoomScene extends Scene{
 			//apply full speed in X and Y axis
 			potMoveX = this.speedFactor * _deltaTime * this.xInput;
 			potMoveY = this.speedFactor * _deltaTime * this.yInput;
-
-			//TODO: check if player moving the potential would collide with something
-			//		(X first)
-			//TODO: adjust as needed to keep player in bounds
 			
-			//apply the resulting movement
-			this.playerPosX += potMoveX;
-			this.playerPosY += potMoveY;
+		}
+
+		this.statusDisplayText = potMoveX + ', ' + potMoveY;
+
+		//check collisions and adjust/constrain X/Y move as necessary
+		if(potMoveX > 0){
+			//moving right
+
+			if(this.playerPosX + potMoveX + this.playerCollideWidth > this.rightRoomBoundsX){
+				//would be over right bounds
+				if(this.playerPosY > this.sideDoorTopY && this.playerPosY + this.playerCollideHeight < this.sideDoorBottomY){
+					//player is moving right into the doorway, allow it
+					this.playerPosX += potMoveX;
+				}
+				else{
+					//player is colliding with the left wall, constrain it to the wall boundary
+					this.playerPosX = this.rightRoomBoundsX - this.playerCollideWidth;
+				}
+			}
+			else{
+				this.playerPosX += potMoveX;
+			}
+
+		}
+		else if(potMoveX < 0){
+			//moving left
+			if(this.playerPosX + potMoveX < this.leftRoomBoundsX){
+				//would be over left bounds
+				if(this.playerPosY > this.sideDoorTopY && this.playerPosY + this.playerCollideHeight < this.sideDoorBottomY){
+					//player is moving left into the doorway, allow it
+					this.playerPosX += potMoveX;
+				}
+				else{
+					//player is colliding with the left wall, constrain it to the wall boundary
+					this.playerPosX = this.leftRoomBoundsX;
+				}
+			}
+			else{
+				this.playerPosX += potMoveX;
+			}
+		}
+
+		if(potMoveY > 0){
+			//moving down
+			if(this.playerPosY + potMoveY + this.playerCollideHeight > this.bottomRoomBoundsY){
+				//would be over the bottom bounds
+				if(this.playerPosX > this.tbDoorLeftX && this.playerPosX + this.playerCollideWidth < this.tbDoorRightX){
+					//player is moving down into the doorway, allow it
+					this.playerPosY += potMoveY;
+				}
+				else{
+					//player is colliding with the bottom wall, constrain it to the wall boundary
+					this.playerPosY = this.bottomRoomBoundsY - this.playerCollideHeight;
+				}
+			}
+			else{
+				this.playerPosY += potMoveY;
+			}
+		}
+		else if(potMoveY < 0){
+			//moving up
+			if(this.playerPosY + potMoveY < this.topRoomBoundsY){
+				//would be over top bounds
+				if(this.playerPosX > this.tbDoorLeftX && this.playerPosX + this.playerCollideWidth < this.tbDoorRightX){
+					//player is moving up into the doorway, allow it
+					this.playerPosY += potMoveY
+				}
+				else{
+					//player is colliding with the top wall, constrain it to the wall boundary
+					this.playerPosY = this.topRoomBoundsY;
+				}
+			}
+			else{
+				this.playerPosY += potMoveY
+			}
 		}
 
 		this.statusDisplayText = '';
+
 		if(this.playerPosX < this.leftTriggerX){
 			this.statusDisplayText = 'LEFT TRIGGER ACTIVE';
 
