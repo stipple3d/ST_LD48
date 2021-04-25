@@ -28,10 +28,10 @@ class MainMenuScene extends Scene{
 
             playerMoveDir = '';
 
-			playerExtentsMinX = 0;
-			playerExtentsMaxX = 0;
-			playerExtentsMinY = 0;
-			playerExtentsMaxY = 0;
+			discoveredExtentsLeft = 0;
+			discoveredExtentsRight = 0;
+			discoveredExtentsUp = 0;
+			discoveredExtentsDown = 0;
 
 			//Init discovered rooms array & mark the initial tile as discovered
 			discoveredRooms = [];

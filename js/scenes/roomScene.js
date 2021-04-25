@@ -8,6 +8,16 @@ class RoomScene extends Scene{
 
         this.directionChosen = false;
 
+		this.mapDisplayAreaWidth = 704;
+		this.mapDisplayAreaHeight = 576;
+		this.mapDisplayAreaTLX = (canvas.width - this.mapDisplayAreaWidth) /2;
+		this.mapDisplayAreaTLY = (canvas.height - this.mapDisplayAreaHeight) /2;
+
+		this.roomRows = 9;
+		this.roomCols = 11;
+
+		this.roomTileSize = 64;
+
         // console.log('MainMenuScene: INIT');
 		document.addEventListener("keydown", this.keyPressHandler);
 	}
@@ -83,20 +93,61 @@ class RoomScene extends Scene{
 		context.save();
 		//_____________________
 		//draw elements
-		
+
+		//draw a border around the mapDisplayArea
 		context.beginPath();
-		context.font = '40px Arial';
-        context.textAlign = 'center';
+		context.strokeStyle = "red";
+		context.rect(this.mapDisplayAreaTLX, this.mapDisplayAreaTLY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight)
+		context.stroke();
+
+
+		/* this.mapDisplayAreaWidth = 704;
+		this.mapDisplayAreaHeight = 576;
+		this.mapDisplayAreaTLX = (canvas.width - this.mapDisplayAreaWidth) /2;
+		this.mapDisplayAreaTLY = (canvas.height - this.mapDisplayAreaHeight) /2;
+
+		this.roomRows = 9;
+		this.roomCols = 11; */
+
+
+		let currentDataIndex = 0;
+
+		for(var row = 0; row < this.roomRows; row++){
+			for(var col = 0; col < this.roomCols; col++){
+				
+				//draw tile
+				context.beginPath();
+
+				if(roomData_lrud[currentDataIndex] == 0)
+					context.fillStyle = "black";
+				else
+					context.fillStyle = "grey";
+
+				context.rect(this.mapDisplayAreaTLX + (col * this.roomTileSize) +1 , this.mapDisplayAreaTLY + (row * this.roomTileSize) +1 , this.roomTileSize -2, this.roomTileSize -2)
+				context.fill();
+
+				//increment currentIndex
+				currentDataIndex ++;
+			}
+		}
+
+
+
+
+
+
+		context.beginPath();
+		context.font = '20px Arial';
+		context.textAlign = 'center';
 		context.fillStyle = '#8ac80b';
-        context.fillText('EXIT DIRECTION  [ WASD ]', canvas.width /2, canvas.height -80);
-		context.fillText('MENU  [ M ]', canvas.width /2, canvas.height -40);
+		context.fillText('EXIT THE ROOM THROUGH A DOORWAY', canvas.width /2, canvas.height -32);
+		context.fillText('EXIT TO MENU  [ M ]', canvas.width /2, canvas.height -8);
 
 
 		context.beginPath();
 		context.textAlign = 'left';
-		context.font = '20px Arial';
-		context.fillText('scene: ' + this.name, 30, 30);
-        context.fillText('roomCoords: ' + playerRoomX + ', ' + playerRoomY, 30, 60);
+		//context.fillText('scene: ' + this.name, 30, 30);
+        context.fillText('roomCoords: ' + playerRoomX + ', ' + playerRoomY, 30, 20);
 
 		//_____________________
 		context.restore();

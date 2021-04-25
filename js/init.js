@@ -9,7 +9,7 @@ let playerRoomX, playerRoomY;
 let playerMoveDir;
 
 //min/max index values of the discovered world
-let playerExtentsMinX, playerExtentsMaxX, playerExtentsMinY, playerExtentsMaxY;
+let discoveredExtentsLeft, discoveredExtentsRight, discoveredExtentsUp, discoveredExtentsDown;
 
 //an array of objects (each with an X/Y value) representing all the rooms the player has "landed" in
 let discoveredRooms;

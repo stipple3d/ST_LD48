@@ -13,17 +13,19 @@ class RoomTransitionScene extends Scene{
 		this.tickTimer = config.transitionTickDuration;
 		this.ticksComplete = 0;
 
+		//init distance from origin value (in direction of input)
 		this.distFromOriginInDirChosen = 0;
-		this.distDisplay = 0;
-		
+		//update distance from origin based on input direction
 		if(playerMoveDir == 'left' || playerMoveDir == 'right')
 			this.distFromOriginInDirChosen = Math.abs(playerRoomX);
 		else if(playerMoveDir == 'up' || playerMoveDir == 'down')
 			this.distFromOriginInDirChosen = Math.abs(playerRoomY);
 
+		//init min/max move range vars
 		this.minMove = 1;
 		this.maxMove = 1;
 
+		//update min/max move range based on distance from origin in the direction of travel
 		if(this.distFromOriginInDirChosen < 1){
 			//no change from defaults
 			this.minMove = 1;
@@ -53,24 +55,21 @@ class RoomTransitionScene extends Scene{
 			console.log('unexpected value for distFromOriginInDirChosen');
 		}
 
+		//select the CHOSEN destination room within the min/max range
+		//TODO: currently, this calc assumes a min is always 1, if that is not the case, this
+		//		will need to change
 		this.randomNumOfRoomsInRange = Math.floor(Math.random() * this.maxMove) + 1;
-		
 
-		//MAP
+		//NOTE: at this point the current room should already be marked as discoverd (last move)
 
-		//at this point the current room should already be marked as discoverd (last move)
+		//vars to hold the temporary EXTENDED map extents
+		//bring in the existing exents min/max for X/Y extents
+		this.tempExtentsLeft = discoveredExtentsLeft;
+		this.tempExtentsRight = discoveredExtentsRight;
+		this.tempExtentsUp = discoveredExtentsUp;
+		this.tempExtentsDown = discoveredExtentsDown;
 
-		//holders for the temporary map extents
-		//(will include the max number of possible moves in the direction selected, for display of path)
-
-		//bring in the existing exents min/max for X/Y
-		this.tempExtentsLeft = playerExtentsMinX;
-		this.tempExtentsRight = playerExtentsMaxX;
-		this.tempExtentsUp = playerExtentsMinY;
-		this.tempExtentsDown = playerExtentsMaxY;
-
-		//add more in the direction of potential in direction of travel (max possible move)
-		//(adjust extents if necesssary)
+		//EXPAND THE EXTENTS in the direction of potential travel (max possible move)
 		if(playerMoveDir == 'left' && playerRoomX - this.maxMove < this.tempExtentsLeft){
 			this.tempExtentsLeft = playerRoomX - this.maxMove;
 		}
@@ -84,43 +83,50 @@ class RoomTransitionScene extends Scene{
 			this.tempExtentsDown = playerRoomY + this.maxMove;
 		}
 
-		//offsets for where the map ros/cols start (index values)
-		//NOTE: these should be this.tempExtentsLeft and this.tempExtentsUp
-		// this.topLeftMapColIndex = 0;
-		// this.topLeftMapRowIndex = 0;
+		//TODO: in addition to rendering all discovered rooms and the current Room, 
+		//		we need to highlight the potential move tiles as the counter is spinning
+		//TODO: make an array of all the potential move tiles, in order away from the current room, 
+		//		in the direction of move, not counting the current room
+		//		(the number of these that is rendered will match the counter display)
 
-		//create an empty array to hold the rows in the temp map to be displayed
-		this.tempMapRowsArray = [];
+		//create an empty array to hold the potential move tiles to be animated
+		this.potentialMoveTiles = [];
 
-		this.rowsHigh = (this.tempExtentsDown - this.tempExtentsUp) +1;
-		this.colsWide = (this.tempExtentsRight - this.tempExtentsLeft) +1;
-
-		//loop through and create new rows for the range needed
-		console.log("extents LRUD: " + this.tempExtentsLeft + ', ' + this.tempExtentsRight + ', ' + this.tempExtentsUp + ', ' + this.tempExtentsDown);
-
-		console.log('LR width: ' + this.colsWide + ', UD height: ' + this.rowsHigh);
-
-		for(var row = 0; row < this.rowsHigh; row ++){
-			//create an empty array to hold the column values
-			this.tempMapRowsArray[row] = [];
-			for(var col = 0; col < this.colsWide; col ++){
-				this.tempMapRowsArray[row][col] = 0;//zero for undiscovered and not the current room
+		//for each direction, fill the array with the possible moves in the selected direction
+		if(playerMoveDir == 'left'){
+			for(var i = 1; i < this.maxMove +1; i++){
+				this.potentialMoveTiles.push({x: playerRoomX - i, y: playerRoomY});
+			}
+		}
+		else if(playerMoveDir == 'right'){
+			for(var i = 1; i < this.maxMove +1; i++){
+				this.potentialMoveTiles.push({x: playerRoomX + i, y: playerRoomY});
+			}
+		}
+		else if(playerMoveDir == 'up'){
+			for(var i = 1; i < this.maxMove +1; i++){
+				this.potentialMoveTiles.push({x: playerRoomX, y: playerRoomY - i});
+			}
+		}
+		else if(playerMoveDir == 'down'){
+			for(var i = 1; i < this.maxMove +1; i++){
+				this.potentialMoveTiles.push({x: playerRoomX, y: playerRoomY + i});
 			}
 		}
 
+		//calculate the tilesWide and TilesHigh for the EXTENDED extents to be displlayed
+		this.rowsHighExtended = (this.tempExtentsDown - this.tempExtentsUp) +1;
+		this.colsWideExtended = (this.tempExtentsRight - this.tempExtentsLeft) +1;
+
 		this.mapDisplayAreaWidth = 720;
 		this.mapDisplayAreaHeight = 540;
-		this.mapTLX = 40;
-		this.mapTLY = 90;
+		this.mapDisplayAreaTLX = 40;
+		this.mapDisplayAreaTLY = 90;
 
-		//TODO: show a map with:
-		//		- all discovered extents shown
-		//		- current tile highlighted
-		//		- destination tile highlighted
-		//		- path between current and destination "animated in grey"? (loops until transition complete?)
-
-		//start distance display at minimum move dist
-		//(result has already been this.distFromOriginInDirChosen, this is just for animation)
+		//start out distance display value as ZERO
+		//(ZERO is not a possible amount, but this will be used by counter and animations
+		//	and will make sense visually)
+		//NOTE: actual move result has already been selected. This is just for visual effect/clarity
 		this.distDisplay = 0;
 
 		document.addEventListener("keydown", this.keyPressHandler);
@@ -175,16 +181,16 @@ class RoomTransitionScene extends Scene{
 				
 				//mark the initial tile as discovered
 				discoveredRooms.push({x: playerRoomX, y: playerRoomY});
-				
+
 				//adjust min/max extents if necessary
-				if(playerRoomX < playerExtentsMinX)
-					playerExtentsMinX = playerRoomX;
-				if(playerRoomY < playerExtentsMinY)
-					playerExtentsMinY = playerRoomY;
-				if(playerRoomX > playerExtentsMaxX)
-					playerExtentsMaxX = playerRoomX;
-				if(playerRoomY > playerExtentsMaxY)
-					playerExtentsMaxY = playerRoomY;
+				if(playerRoomX < discoveredExtentsLeft)
+				discoveredExtentsLeft = playerRoomX;
+				if(playerRoomY < discoveredExtentsUp)
+				discoveredExtentsUp = playerRoomY;
+				if(playerRoomX > discoveredExtentsRight)
+				discoveredExtentsRight = playerRoomX;
+				if(playerRoomY > discoveredExtentsDown)
+				discoveredExtentsDown = playerRoomY;
 
 				//mark display complete to activate continue key
 				this.displayComplete = true;
@@ -211,30 +217,88 @@ class RoomTransitionScene extends Scene{
 
 		//MAP
 
+		//draw a border around the mapDisplayArea
 		context.beginPath();
-		context.strokeStyle = "#999999";
-		context.rect(this.mapTLX, this.mapTLY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight)
+		context.strokeStyle = "red";
+		context.rect(this.mapDisplayAreaTLX, this.mapDisplayAreaTLY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight)
 		context.stroke();
 
-		const mapDisplayPadding = 10;
+		//calc the map tile size (factoring padding within the bounds of the area for displaying map)
+		let mapTileSize = Math.floor((this.mapDisplayAreaWidth - config.mapDisplayPadding *2) / this.colsWideExtended);
 
-		let mapTilesTLStartX = this.mapTLX + mapDisplayPadding;
-		let mapTilesTLStartY = this.mapTLY + mapDisplayPadding;
-		let mapTileSize = Math.floor((this.mapDisplayAreaWidth - mapDisplayPadding *2) / this.tempMapRowsArray[0].length);
-		console.log('map' + mapTileSize);
+		//if the vertical mapTileSize calculation woudl result in a LOWER size, use that instead
+		if(Math.floor((this.mapDisplayAreaHeight - config.mapDisplayPadding *2) / this.rowsHighExtended) < mapTileSize)
+			mapTileSize = Math.floor((this.mapDisplayAreaHeight - config.mapDisplayPadding *2) / this.rowsHighExtended);
+		
+		//constrain the map tile size to min/max values (from config settings)
+		if(mapTileSize < config.minMapTileSize)
+			mapTileSize = config.minMapTileSize;
+		if(mapTileSize > config.maxMapTileSize)
+			mapTileSize = config.maxMapTileSize;
 
-		if(Math.floor((this.mapDisplayAreaHeight - mapDisplayPadding *2) / this.tempMapRowsArray.length) < mapTileSize)
-			mapTileSize = Math.floor((this.mapDisplayAreaHeight - mapDisplayPadding *2) / this.tempMapRowsArray.length);
-		console.log('map' + mapTileSize);
+		//calc the total map width/height to be displayed
+		let mapTileTotalWidthToDisplay = this.colsWideExtended * mapTileSize;
+		let mapTileTotalHeightToDisplay = this.rowsHighExtended * mapTileSize;
 
-		for(var row = 0; row < this.tempMapRowsArray.length; row ++){
-			for(var col = 0; col < this.tempMapRowsArray[row].length; col ++){
-				if(this.tempMapRowsArray[row][col] == 0){
-					context.beginPath();
-					context.fillStyle = "#336699";
-					context.rect(mapTilesTLStartX + (col * mapTileSize) +1, mapTilesTLStartY + (row * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
-					context.fill();
-				}
+		//calc the TL corner of the mapTiles in display (factoring in padding and centering the map in within the display area)
+		// let mapTilesTLStartX = this.mapDisplayAreaTLX + config.mapDisplayPadding;
+		let mapTilesTLStartX = ((this.mapDisplayAreaWidth - mapTileTotalWidthToDisplay) /2) + this.mapDisplayAreaTLX;
+		let mapTilesTLStartY = ((this.mapDisplayAreaHeight - mapTileTotalHeightToDisplay) /2) + this.mapDisplayAreaTLY;
+		
+		//draw a border around the mapTileExtents
+		context.beginPath();
+		context.strokeStyle = "blue";
+		context.rect(mapTilesTLStartX, mapTilesTLStartY, mapTileTotalWidthToDisplay, mapTileTotalHeightToDisplay)
+		context.stroke();
+
+		let xAdjustment, yAdjustment;
+
+		//loop through and draw each of the discovered rooms in correct place relative to map on screen
+		for(var dr = 0; dr < discoveredRooms.length; dr++){
+			xAdjustment = discoveredRooms[dr].x - this.tempExtentsLeft;
+			yAdjustment = discoveredRooms[dr].y - this.tempExtentsUp;
+
+			//console.log(discoveredRooms[dr].x + ', ' + discoveredRooms[dr].y + ' -- ' + playerRoomX + ', ' + playerRoomY);
+			context.beginPath();
+			if(playerRoomX == discoveredRooms[dr].x && playerRoomY == discoveredRooms[dr].y)
+				context.fillStyle = "green";
+			else
+				context.fillStyle = "#336699";
+			context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
+			context.fill();
+		}
+
+		//draw a small highlight circle on origin room (for REF)
+		xAdjustment = 0 - this.tempExtentsLeft;
+		yAdjustment = 0 - this.tempExtentsUp;
+		context.beginPath();
+		context.fillStyle = "white";
+		context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2),(mapTileSize *.25), 0, Math.PI *2)
+		context.fill();
+
+		//draw a circle border around the current tile
+		xAdjustment = playerRoomX - this.tempExtentsLeft;
+		yAdjustment = playerRoomY - this.tempExtentsUp;
+		context.beginPath();
+		context.lineWidth = 2;
+		context.setLineDash([10, 4]);
+		context.strokeStyle = "yellow";
+		context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2),(mapTileSize *.55), 0, Math.PI *2)
+		context.stroke();
+
+		//display the number of potential move tiles from the array to match the value in
+		//this.distDisplay
+
+		for(var pm = 0; pm <= this.distDisplay; pm++){
+			if(pm != 0){
+
+				xAdjustment = this.potentialMoveTiles[pm-1].x - this.tempExtentsLeft;
+				yAdjustment = this.potentialMoveTiles[pm-1].y - this.tempExtentsUp;
+				
+				context.beginPath();
+				context.fillStyle = "grey";
+				context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
+				context.fill();
 			}
 		}
 
@@ -246,7 +310,6 @@ class RoomTransitionScene extends Scene{
 			context.textAlign = 'center';
 			context.fillStyle = '#8ac80b';
 			context.fillText('GO TO ROOM  [ R ]', canvas.width /2, canvas.height -8);
-	
 		}
 		
 		context.beginPath();
