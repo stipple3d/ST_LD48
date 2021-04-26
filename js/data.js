@@ -19,7 +19,10 @@ const config = {
 	maxMapTileSize: 64,
 	transitionTickDuration: 0.12,
 	mapDisplayPadding: 10,
+	forceShowKeysInTransition: true,
 };
+
+const keyPartColors = ['blue', 'red', 'orange', 'cyan', 'purple', 'yellow'];
 
 const unitDiagonalComponent = .70710678118;
 

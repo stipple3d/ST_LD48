@@ -176,6 +176,11 @@ class RoomScene extends Scene{
 
 		//console.log('MainMenuScene: update Running');
 
+		//call update on any keyPartVisual classes in the array
+		for(var kpv = 0; kpv < this.keyParticalVisuals.length; kpv++){
+			this.keyParticalVisuals[kpv].update();
+		}
+
 		//zero out input from last frame
 		this.xInput = 0;
 		this.yInput = 0;
@@ -386,6 +391,11 @@ class RoomScene extends Scene{
 		context.textAlign = 'center';
 		context.fillStyle = '#8ac80b';
 		context.fillText(this.statusDisplayText, canvas.width /2, canvas.height /2 - 32);
+
+		//call render on any keyPartVisual classes in the array
+		for(var kpv = 0; kpv < this.keyParticalVisuals.length; kpv++){
+			this.keyParticalVisuals[kpv].render();
+		}
 
 
 		//draw player collision box

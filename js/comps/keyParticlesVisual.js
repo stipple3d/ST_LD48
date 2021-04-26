@@ -8,8 +8,21 @@ class KeyParticlesVisual{
         this.roomHeight = _rmHeight;
         this.roomTL_x = _rmTLX;
         this.roomTL_y = _rmTLY;
-        this.color = _clr;
+        this.color = keyPartColors[this.keyPartIndex];
 
+		this.vectorTowardsKeyPartFromRoom = new Vector2D(keyParts[this.keyPartIndex].x - this.roomX, keyParts[this.keyPartIndex].y - this.roomY);
+		console.log('keypartVis ' + this.keyPartIndex + ' dist: ' + this.vectorTowardsKeyPartFromRoom.getMag() + ', color: ' + this.color);
+
+		//direction visual start point is room center
+		this.startPt = new Vector2D(this.roomTL_x + (this.roomWidth /2), this.roomTL_y + (this.roomHeight /2));
+		//end pt begins as a normalized vector of the vector from current room to keyPart room
+		this.endPt = this.vectorTowardsKeyPartFromRoom.getNormalized();
+		//set magnitude of the line to a distance value
+		this.endPt.setMag(100);
+		//TODO: add the X/Y from the start point to that end value (to make it relative to room center point)
+		this.endPt.x += this.startPt.x;
+		this.endPt.y += this.startPt.y;
+		
         //TODO: from center of the currently loaded room, what is the direction 
         //      TOWARD the relative x/y location of the room with the keyPart in it
 
@@ -33,11 +46,24 @@ class KeyParticlesVisual{
 		//_____________________
 		//draw elements
 
+
+		//draw line from current room center a [UNIT VECTOR * 100] dist in the 
+		context.beginPath();
+		context.strokeStyle = this.color;
+		context.moveTo(this.startPt.x, this.startPt.y);
+		context.lineTo(this.endPt.x, this.endPt.y);
+		context.stroke();
+
+
+
+
+
 		//draw a border around the mapDisplayArea
 		/* context.beginPath();
 		context.strokeStyle = "red";
 		context.rect(this.mapDisplayAreaTLX, this.mapDisplayAreaTLY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight)
 		context.stroke();
+
 
 		let currentDataIndex = 0;
 

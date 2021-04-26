@@ -83,9 +83,25 @@ class RoomTransitionScene extends Scene{
 			this.tempExtentsDown = playerRoomY + this.maxMove;
 		}
 
-		//TODO: in addition to rendering all discovered rooms and the current Room, 
+		//if we are forcing display of all key parts (config setting), 
+		//expand the extents to include all of the keyPrt rooms as well
+		if(config.forceShowKeysInTransition){
+			for(var kpr = 0; kpr < keyParts.length; kpr++){
+				if(keyParts[kpr].x < this.tempExtentsLeft)
+					this.tempExtentsLeft = keyParts[kpr].x;
+				if(keyParts[kpr].x > this.tempExtentsRight)
+				this.tempExtentsRight = keyParts[kpr].x;
+				if(keyParts[kpr].y < this.tempExtentsUp)
+				this.tempExtentsUp = keyParts[kpr].y;
+				if(keyParts[kpr].y > this.tempExtentsDown)
+				this.tempExtentsDown = keyParts[kpr].y;
+			}
+		}
+		
+
+		//in addition to rendering all discovered rooms and the current Room, 
 		//		we need to highlight the potential move tiles as the counter is spinning
-		//TODO: make an array of all the potential move tiles, in order away from the current room, 
+		//make an array of all the potential move tiles, in order away from the current room, 
 		//		in the direction of move, not counting the current room
 		//		(the number of these that is rendered will match the counter display)
 
@@ -316,6 +332,20 @@ class RoomTransitionScene extends Scene{
 		/* if(!this.displayComplete){
 			
 		} */
+
+		//if we are forcing display of all key parts (config setting), 
+		//draw each key part room as a bordered box
+		if(config.forceShowKeysInTransition){
+			for(var kpr = 0; kpr < keyParts.length; kpr++){
+				xAdjustment = keyParts[kpr].x - this.tempExtentsLeft;
+				yAdjustment = keyParts[kpr].y - this.tempExtentsUp;
+
+				context.beginPath();
+				context.strokeStyle = keyPartColors[kpr];
+				context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
+				context.stroke();
+			}
+		}
 		
 
 		//TEXT

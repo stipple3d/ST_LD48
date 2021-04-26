@@ -27,8 +27,8 @@ class MainMenuScene extends Scene{
 		//init the keyParts array & generate the locations of each part (the rooms it is in)
 		keyParts = [];
 
-		const minDistanceForKeyPart = 60;
-		const maxDistanceForKeyPart = 150;
+		const minDistanceForKeyPart = 6;
+		const maxDistanceForKeyPart = 30;
 		const numKeyParts = 5;
 		// const minDistBetweenKeyParts = 100;
 		const minRotBetweenKeyParts = 60;
