@@ -21,10 +21,37 @@ class RoomScene extends Scene{
 		this.playerCollideWidth = 48;
 		this.playerCollideHeight = 56;
 
+		//TODO: **********************************
+		//		conditions for player position depending on if there is a direction coming from
+		if(playerComingFromDirection == 'left'){
+			this.playerPosX = this.mapDisplayAreaTLX + (this.roomTileSize * 1);
+			this.playerPosY = this.mapDisplayAreaTLY + (this.mapDisplayAreaHeight /2) - (this.playerCollideHeight /2);
+		}
+		else if(playerComingFromDirection == 'right'){
+			this.playerPosX = this.mapDisplayAreaTLX + (this.roomTileSize * 9);
+			this.playerPosY = this.mapDisplayAreaTLY + (this.mapDisplayAreaHeight /2) - (this.playerCollideHeight /2);
+		}
+		else if(playerComingFromDirection == 'above'){
+			this.playerPosX = this.mapDisplayAreaTLX + (this.mapDisplayAreaWidth /2) - (this.playerCollideWidth /2);
+			this.playerPosY = this.mapDisplayAreaTLY + (this.roomTileSize * 1);
+		}
+		else if(playerComingFromDirection == 'below'){
+			this.playerPosX = this.mapDisplayAreaTLX + (this.mapDisplayAreaWidth /2) - (this.playerCollideWidth /2);
+			this.playerPosY = this.mapDisplayAreaTLY + (this.roomTileSize * 9);
+		}
+		else{
+			this.playerPosX = this.mapDisplayAreaTLX + (this.mapDisplayAreaWidth /2) - (this.playerCollideWidth /2);
+			this.playerPosY = this.mapDisplayAreaTLY + (this.roomTileSize * 3);
+		}
+
+
 		//currently, center spawn
 		//NOTE: player Postion is the TL point (only have to adjust for collisions at B & R dirs)
+
+		
+		/* OLD (BEFORE ADDING MULT SPOAWN POINTS)
 		this.playerPosX = this.mapDisplayAreaTLX + (this.mapDisplayAreaWidth /2) - (this.playerCollideWidth /2);
-		this.playerPosY = this.mapDisplayAreaTLY + (this.mapDisplayAreaHeight /2) - (this.playerCollideHeight /2);
+		this.playerPosY = this.mapDisplayAreaTLY + (this.mapDisplayAreaHeight /2) - (this.playerCollideHeight /2); */
 
 		this.leftTriggerX = this.mapDisplayAreaTLX + (this.roomTileSize * 0.7);
 		this.rightTriggerX = (this.mapDisplayAreaTLX + this.mapDisplayAreaWidth) - (this.roomTileSize * 0.7);
@@ -38,8 +65,8 @@ class RoomScene extends Scene{
 
 		this.tbDoorLeftX = this.mapDisplayAreaTLX + (this.roomTileSize * 4);
 		this.tbDoorRightX = this.mapDisplayAreaTLX + (this.roomTileSize * 7);
-		this.sideDoorTopY = this.mapDisplayAreaTLY + (this.roomTileSize *3);
-		this.sideDoorBottomY = this.mapDisplayAreaTLY + (this.roomTileSize *6);
+		this.sideDoorTopY = this.mapDisplayAreaTLY + (this.roomTileSize *4);
+		this.sideDoorBottomY = this.mapDisplayAreaTLY + (this.roomTileSize *7);
 
 		this.statusDisplayText = '';
 
@@ -66,10 +93,7 @@ class RoomScene extends Scene{
 				this.keyParticalVisuals.push(new KeyParticlesVisual(kp, playerRoomX, playerRoomY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight, this.mapDisplayAreaTLX, this.mapDisplayAreaTLY));
 
 			}
-			
-
 		}
-
 
         // console.log('MainMenuScene: INIT');
 		document.addEventListener("keydown", this.keyPressHandler);
@@ -111,45 +135,6 @@ class RoomScene extends Scene{
 			//RIGHT INPUT
 			this.rightPressed = true;
 		}
-
-		/* PREVIOUS WASD "skip room" triggers
-		
-		else if(e.key == 'w'){
-			//ROOM UP SELECTED
-
-            playerMoveDir = 'up';
-			this.directionChosen = true;
-
-			//goto newPlayer scene (that will take care of everything else)
-			sceneManager.gotoScene({name: 'roomTransition'});
-		}
-        else if(e.key == 'a'){
-			//ROOM LEFT SELECTED
-
-            playerMoveDir = 'left';
-			this.directionChosen = true;
-
-			//goto newPlayer scene (that will take care of everything else)
-			sceneManager.gotoScene({name: 'roomTransition'});
-		}
-        else if(e.key == 's'){
-			//ROOM DOWN SELECTED
-
-            playerMoveDir = 'down';
-			this.directionChosen = true;
-
-			//goto newPlayer scene (that will take care of everything else)
-			sceneManager.gotoScene({name: 'roomTransition'});
-		}
-        else if(e.key == 'd'){
-			//ROOM RIGHT SELECTED
-
-            playerMoveDir = 'right';
-			this.directionChosen = true;
-
-			//goto newPlayer scene (that will take care of everything else)
-			sceneManager.gotoScene({name: 'roomTransition'});
-		} */
 	}
 
 	keyReleaseHandler = (e) =>{
@@ -423,14 +408,15 @@ class RoomScene extends Scene{
 		context.font = '20px Arial';
 		context.textAlign = 'center';
 		context.fillStyle = '#8ac80b';
-		context.fillText('EXIT THE ROOM THROUGH A DOORWAY', canvas.width /2, canvas.height -32);
-		context.fillText('EXIT TO MENU  [ M ]', canvas.width /2, canvas.height -8);
+		context.fillText('EXIT THE ROOM THROUGH A DOORWAY', canvas.width /2, canvas.height -8);
+		context.textAlign = 'right';
+		context.fillText('MENU  [ M ]', canvas.width -40, canvas.height -8);
 
 
 		context.beginPath();
 		context.textAlign = 'left';
 		//context.fillText('scene: ' + this.name, 30, 30);
-        context.fillText('roomCoords: ' + playerRoomX + ', ' + playerRoomY, 30, 20);
+        context.fillText('roomCoords: ' + playerRoomX + ', ' + playerRoomY, 30, canvas.height -8);
 
 		//_____________________
 		context.restore();

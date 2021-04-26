@@ -113,21 +113,29 @@ class RoomTransitionScene extends Scene{
 			for(var i = 1; i < this.maxMove +1; i++){
 				this.potentialMoveTiles.push({x: playerRoomX - i, y: playerRoomY});
 			}
+
+			playerComingFromDirection = 'right';
 		}
 		else if(playerMoveDir == 'right'){
 			for(var i = 1; i < this.maxMove +1; i++){
 				this.potentialMoveTiles.push({x: playerRoomX + i, y: playerRoomY});
 			}
+
+			playerComingFromDirection = 'left';
 		}
 		else if(playerMoveDir == 'up'){
 			for(var i = 1; i < this.maxMove +1; i++){
 				this.potentialMoveTiles.push({x: playerRoomX, y: playerRoomY - i});
 			}
+
+			playerComingFromDirection = 'below';
 		}
 		else if(playerMoveDir == 'down'){
 			for(var i = 1; i < this.maxMove +1; i++){
 				this.potentialMoveTiles.push({x: playerRoomX, y: playerRoomY + i});
 			}
+
+			playerComingFromDirection = 'above';
 		}
 
 		//calculate the tilesWide and TilesHigh for the EXTENDED extents to be displlayed

@@ -20,6 +20,8 @@ class MainMenuScene extends Scene{
 		discoveredExtentsUp = 0;
 		discoveredExtentsDown = 0;
 
+		playerComingFromDirection = '';
+
 		//Init discovered rooms array & mark the initial tile as discovered
 		discoveredRooms = [];
 		discoveredRooms.push({x: 0, y: 0});

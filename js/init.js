@@ -17,6 +17,8 @@ let discoveredRooms;
 let keyParts;
 
 let hardMode = false;
+
+let playerComingFromDirection = '';
 //----------------------
 
 //for now, importing the tileMap image and storing it globally
