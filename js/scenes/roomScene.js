@@ -26,10 +26,10 @@ class RoomScene extends Scene{
 		this.playerPosX = this.mapDisplayAreaTLX + (this.mapDisplayAreaWidth /2) - (this.playerCollideWidth /2);
 		this.playerPosY = this.mapDisplayAreaTLY + (this.mapDisplayAreaHeight /2) - (this.playerCollideHeight /2);
 
-		this.leftTriggerX = this.mapDisplayAreaTLX + (this.roomTileSize /2);
-		this.rightTriggerX = (this.mapDisplayAreaTLX + this.mapDisplayAreaWidth) - (this.roomTileSize /2);
-		this.topTriggerY = this.mapDisplayAreaTLY + (this.roomTileSize /2);
-		this.bottomTriggerY = (this.mapDisplayAreaTLY + this.mapDisplayAreaHeight) - (this.roomTileSize /2);
+		this.leftTriggerX = this.mapDisplayAreaTLX + (this.roomTileSize * 0.7);
+		this.rightTriggerX = (this.mapDisplayAreaTLX + this.mapDisplayAreaWidth) - (this.roomTileSize * 0.7);
+		this.topTriggerY = this.mapDisplayAreaTLY + (this.roomTileSize * 0.7);
+		this.bottomTriggerY = (this.mapDisplayAreaTLY + this.mapDisplayAreaHeight) - (this.roomTileSize * 0.7);
 
 		this.leftRoomBoundsX = this.mapDisplayAreaTLX + this.roomTileSize;
 		this.rightRoomBoundsX = (this.mapDisplayAreaTLX + this.mapDisplayAreaWidth) - this.roomTileSize;

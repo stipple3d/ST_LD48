@@ -13,6 +13,8 @@ let discoveredExtentsLeft, discoveredExtentsRight, discoveredExtentsUp, discover
 
 //an array of objects (each with an X/Y value) representing all the rooms the player has "landed" in
 let discoveredRooms;
+
+let keyParts;
 //----------------------
 
 //for now, importing the tileMap image and storing it globally
