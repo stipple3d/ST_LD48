@@ -15,6 +15,8 @@ let discoveredExtentsLeft, discoveredExtentsRight, discoveredExtentsUp, discover
 let discoveredRooms;
 
 let keyParts;
+
+let hardMode = false;
 //----------------------
 
 //for now, importing the tileMap image and storing it globally

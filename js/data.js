@@ -20,7 +20,7 @@ const config = {
 	transitionTickDuration: 0.12,
 	mapDisplayPadding: 10,
 	forceShowKeysInTransition: true,
-	debugDraw: true,
+	debugDraw: false,
 };
 
 const keyPartColors = ['#ff2a6d', '#1261d1', '#ff6e27', '#a0ffe3', '#fbf665', 'purple'];

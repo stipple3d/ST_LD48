@@ -78,8 +78,18 @@ class MainMenuScene extends Scene{
 
         console.log('KEY PRESSED: ' + e.key);
 		
-		if(e.key == 'p'){
+		if(e.key == 'e'){
 			//PLAY SELECTED
+
+			hardMode = false;
+
+			//goto newPlayer scene (that will take care of everything else)
+			sceneManager.gotoScene({name: 'room'});
+		}
+		else if(e.key == 'h'){
+			//PLAY SELECTED
+
+			hardMode = true;
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'room'});
@@ -108,7 +118,17 @@ class MainMenuScene extends Scene{
 		context.textAlign = 'center';
 		context.font = '40px Arial';
 		context.fillStyle = '#8ac80b';
-		context.fillText('PLAY  [ P ]', canvas.width /2, canvas.height -40);
+		context.fillText('EASY MODE  [ E ]', canvas.width /2, 200);
+		context.fillText('HARD MODE  [ H ]', canvas.width /2, 500);
+
+		context.beginPath();
+		// context.textAlign = 'left';
+		context.fillStyle = '#dce0e3';
+		context.font = '30px Arial';
+		context.fillText('Hinting toward the collection rooms is provided in rooms', canvas.width /2, 250);
+		context.fillText('and on the transition screens between rooms.', canvas.width /2, 300);
+		context.fillText('Hinting toward the collection rooms is provided', canvas.width /2, 550);
+		context.fillText('ONLY IN THE ROOMS.', canvas.width /2, 600);
 
 
 		if(config.debugDraw){

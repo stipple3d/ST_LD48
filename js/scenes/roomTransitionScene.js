@@ -83,9 +83,9 @@ class RoomTransitionScene extends Scene{
 			this.tempExtentsDown = playerRoomY + this.maxMove;
 		}
 
-		//if we are forcing display of all key parts (config setting), 
+		//if we are forcing display of all key parts (EASY MODE), 
 		//expand the extents to include all of the keyPrt rooms as well
-		if(config.forceShowKeysInTransition){
+		if(!hardMode){
 			for(var kpr = 0; kpr < keyParts.length; kpr++){
 				if(keyParts[kpr].x < this.tempExtentsLeft)
 					this.tempExtentsLeft = keyParts[kpr].x;
@@ -158,6 +158,8 @@ class RoomTransitionScene extends Scene{
 		
 		if(this.displayComplete && e.keyCode == 32){
 			//CONTINUE SELECTED
+
+			e.preventDefault();
 
 			//goto newPlayer scene (that will take care of everything else)
 			sceneManager.gotoScene({name: 'room'});
@@ -312,7 +314,7 @@ class RoomTransitionScene extends Scene{
 
 		//if we are forcing display of all key parts (config setting), 
 		//draw each key part room as a bordered box
-		if(config.forceShowKeysInTransition){
+		if(!hardMode){
 			for(var kpr = 0; kpr < keyParts.length; kpr++){
 				if(!keyParts[kpr].found){
 					xAdjustment = keyParts[kpr].x - this.tempExtentsLeft;
