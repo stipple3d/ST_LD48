@@ -27,12 +27,12 @@ class MainMenuScene extends Scene{
 		//init the keyParts array & generate the locations of each part (the rooms it is in)
 		keyParts = [];
 
-		const minDistanceForKeyPart = 10;
-		const maxDistanceForKeyPart = 200;
-		const numKeyParts = 1;
+		const minDistanceForKeyPart = 60;
+		const maxDistanceForKeyPart = 150;
+		const numKeyParts = 5;
 		// const minDistBetweenKeyParts = 100;
-		const minRotBetweenKeyParts = 10;
-		const maxRotBetweenKeyParts = 60;
+		const minRotBetweenKeyParts = 60;
+		const maxRotBetweenKeyParts = 80;
 
 		//set initial rotation to a random direction from a circle
 		let currTestRotation = Math.random() * 360;
@@ -62,6 +62,7 @@ class MainMenuScene extends Scene{
 			currObj = new Object();
 			currObj.x = currTestX;
 			currObj.y = currTestY;
+			currObj.found = false;
 			keyParts.push(currObj);
 		}
 
@@ -112,13 +113,13 @@ class MainMenuScene extends Scene{
 		//choose random starting angle and draw a line 200 in that direction
 
 		console.log(keyParts.length);
-		for(var kp = 0; kp < keyParts.length; kp){
+		for(var kp = 0; kp < keyParts.length; kp++){
 
 			//console.log(keyParts[kp].x);
 
 			context.beginPath();
 			context.fillStyle = 'red';
-			context.arc((canvas.width /2) + keyParts[kp].x, (canvas.height /2) + keyParts[kp].y, (kp *2) + 2, 0, Math.PI *2);
+			context.arc((canvas.width /2) + keyParts[kp].x, (canvas.height /2) + keyParts[kp].y, 8, 0, Math.PI *2);
 			context.fill();
 		}
 		

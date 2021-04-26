@@ -53,6 +53,24 @@ class RoomScene extends Scene{
 
 		this.speedFactor = 250.0;
 
+		this.keyParticalVisuals = [];
+
+		//calculate the direction to all of the remaining keyparts
+		for(var kp = 0; kp < keyParts.length; kp++){
+
+			if(!keyParts[kp].found){
+				//TODO: add a keyParts particle class to an array and send it the current room X/Y
+				//		(it will be able to generate particals moving from a point just outside of the 
+				//		room to EITHER a point just inside the room, or a point just beyond the opposite
+				//		side of the room)
+				this.keyParticalVisuals.push(new KeyParticlesVisual(kp, playerRoomX, playerRoomY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight, this.mapDisplayAreaTLX, this.mapDisplayAreaTLY));
+
+			}
+			
+
+		}
+
+
         // console.log('MainMenuScene: INIT');
 		document.addEventListener("keydown", this.keyPressHandler);
 		document.addEventListener("keyup", this.keyReleaseHandler);
