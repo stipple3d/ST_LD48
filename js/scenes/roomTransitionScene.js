@@ -90,11 +90,11 @@ class RoomTransitionScene extends Scene{
 				if(keyParts[kpr].x < this.tempExtentsLeft)
 					this.tempExtentsLeft = keyParts[kpr].x;
 				if(keyParts[kpr].x > this.tempExtentsRight)
-				this.tempExtentsRight = keyParts[kpr].x;
+					this.tempExtentsRight = keyParts[kpr].x;
 				if(keyParts[kpr].y < this.tempExtentsUp)
-				this.tempExtentsUp = keyParts[kpr].y;
+					this.tempExtentsUp = keyParts[kpr].y;
 				if(keyParts[kpr].y > this.tempExtentsDown)
-				this.tempExtentsDown = keyParts[kpr].y;
+					this.tempExtentsDown = keyParts[kpr].y;
 			}
 		}
 		
@@ -327,23 +327,21 @@ class RoomTransitionScene extends Scene{
 		context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2),(mapTileSize *.55), 0, Math.PI *2)
 		context.stroke();
 
-		
-
-		/* if(!this.displayComplete){
-			
-		} */
 
 		//if we are forcing display of all key parts (config setting), 
 		//draw each key part room as a bordered box
 		if(config.forceShowKeysInTransition){
 			for(var kpr = 0; kpr < keyParts.length; kpr++){
-				xAdjustment = keyParts[kpr].x - this.tempExtentsLeft;
-				yAdjustment = keyParts[kpr].y - this.tempExtentsUp;
+				if(!keyParts[kpr].found){
+					xAdjustment = keyParts[kpr].x - this.tempExtentsLeft;
+					yAdjustment = keyParts[kpr].y - this.tempExtentsUp;
 
-				context.beginPath();
-				context.strokeStyle = keyPartColors[kpr];
-				context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
-				context.stroke();
+					context.beginPath();
+					context.strokeStyle = keyPartColors[kpr];
+					context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
+					context.stroke();
+				}
+				
 			}
 		}
 		

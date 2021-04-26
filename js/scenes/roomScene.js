@@ -178,7 +178,7 @@ class RoomScene extends Scene{
 
 		//call update on any keyPartVisual classes in the array
 		for(var kpv = 0; kpv < this.keyParticalVisuals.length; kpv++){
-			this.keyParticalVisuals[kpv].update();
+			this.keyParticalVisuals[kpv].update(_deltaTime);
 		}
 
 		//zero out input from last frame
