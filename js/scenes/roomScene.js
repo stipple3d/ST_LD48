@@ -9,11 +9,11 @@ class RoomScene extends Scene{
         this.directionChosen = false;
 
 		this.mapDisplayAreaWidth = 704;
-		this.mapDisplayAreaHeight = 576;
+		this.mapDisplayAreaHeight = 704;
 		this.mapDisplayAreaTLX = (canvas.width - this.mapDisplayAreaWidth) /2;
 		this.mapDisplayAreaTLY = (canvas.height - this.mapDisplayAreaHeight) /2;
 
-		this.roomRows = 9;
+		this.roomRows = 11;
 		this.roomCols = 11;
 
 		this.roomTileSize = 64;
@@ -352,13 +352,11 @@ class RoomScene extends Scene{
 		//_____________________
 		//draw elements
 
-		//draw a border around the mapDisplayArea
-		context.beginPath();
-		context.strokeStyle = "red";
-		context.rect(this.mapDisplayAreaTLX, this.mapDisplayAreaTLY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight)
-		context.stroke();
+		
 
 		let currentDataIndex = 0;
+
+		// context.globalAlpha = .3;
 
 		for(var row = 0; row < this.roomRows; row++){
 			for(var col = 0; col < this.roomCols; col++){
@@ -366,11 +364,16 @@ class RoomScene extends Scene{
 				//draw tile
 				context.beginPath();
 
-				if(roomData_lrud[currentDataIndex] == 0)
-					context.fillStyle = "black";
-				else
-					context.fillStyle = "grey";
-
+				if(roomData_lrud[currentDataIndex] == 0){
+					// context.globalAlpha = 1;
+					context.fillStyle = "#909087";
+				}
+				else{
+					// context.globalAlpha = .3;
+					context.fillStyle = "#282729";
+				}
+					
+					
 				context.rect(this.mapDisplayAreaTLX + (col * this.roomTileSize) +1 , this.mapDisplayAreaTLY + (row * this.roomTileSize) +1 , this.roomTileSize -2, this.roomTileSize -2)
 				context.fill();
 
@@ -379,18 +382,29 @@ class RoomScene extends Scene{
 			}
 		}
 
-		//draw room exit trigger box
-		context.beginPath();
-		context.strokeStyle = "yellow";
-		context.rect(this.leftTriggerX, this.topTriggerY, this.rightTriggerX - this.leftTriggerX, this.bottomTriggerY - this.topTriggerY)
-		context.stroke();
+		// context.globalAlpha = 1;
 
+		if(config.debugDraw){
 
-		context.beginPath();
-		context.font = '40px Arial';
-		context.textAlign = 'center';
-		context.fillStyle = '#8ac80b';
-		context.fillText(this.statusDisplayText, canvas.width /2, canvas.height /2 - 32);
+			//draw a border around the mapDisplayArea
+			context.beginPath();
+			context.strokeStyle = "red";
+			context.rect(this.mapDisplayAreaTLX, this.mapDisplayAreaTLY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight)
+			context.stroke();
+
+			//draw room exit trigger box
+			context.beginPath();
+			context.strokeStyle = "yellow";
+			context.rect(this.leftTriggerX, this.topTriggerY, this.rightTriggerX - this.leftTriggerX, this.bottomTriggerY - this.topTriggerY)
+			context.stroke();
+
+			context.beginPath();
+			context.font = '40px Arial';
+			context.textAlign = 'center';
+			context.fillStyle = '#8ac80b';
+			context.fillText(this.statusDisplayText, canvas.width /2, canvas.height /2 - 32);
+
+		}
 
 		//call render on any keyPartVisual classes in the array
 		for(var kpv = 0; kpv < this.keyParticalVisuals.length; kpv++){

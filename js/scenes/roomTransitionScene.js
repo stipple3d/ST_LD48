@@ -242,11 +242,7 @@ class RoomTransitionScene extends Scene{
 
 		//MAP
 
-		//draw a border around the mapDisplayArea
-		context.beginPath();
-		context.strokeStyle = "red";
-		context.rect(this.mapDisplayAreaTLX, this.mapDisplayAreaTLY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight)
-		context.stroke();
+		
 
 		//calc the map tile size (factoring padding within the bounds of the area for displaying map)
 		let mapTileSize = Math.floor((this.mapDisplayAreaWidth - config.mapDisplayPadding *2) / this.colsWideExtended);
@@ -269,14 +265,23 @@ class RoomTransitionScene extends Scene{
 		// let mapTilesTLStartX = this.mapDisplayAreaTLX + config.mapDisplayPadding;
 		let mapTilesTLStartX = ((this.mapDisplayAreaWidth - mapTileTotalWidthToDisplay) /2) + this.mapDisplayAreaTLX;
 		let mapTilesTLStartY = ((this.mapDisplayAreaHeight - mapTileTotalHeightToDisplay) /2) + this.mapDisplayAreaTLY;
-		
-		//draw a border around the mapTileExtents
-		context.beginPath();
-		context.strokeStyle = "blue";
-		context.rect(mapTilesTLStartX, mapTilesTLStartY, mapTileTotalWidthToDisplay, mapTileTotalHeightToDisplay)
-		context.stroke();
 
 		let xAdjustment, yAdjustment;
+
+		//loop through and draw each of the discovered rooms in correct place relative to map on screen
+		for(var dr = 0; dr < discoveredRooms.length; dr++){
+			xAdjustment = discoveredRooms[dr].x - this.tempExtentsLeft;
+			yAdjustment = discoveredRooms[dr].y - this.tempExtentsUp;
+
+			//console.log(discoveredRooms[dr].x + ', ' + discoveredRooms[dr].y + ' -- ' + playerRoomX + ', ' + playerRoomY);
+			context.beginPath();
+			if(playerRoomX == discoveredRooms[dr].x && playerRoomY == discoveredRooms[dr].y)
+				context.fillStyle = "#8ac80b";
+			else
+				context.fillStyle = "#D3D8E1";
+			context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
+			context.fill();
+		}
 
 		//display the number of potential move tiles from the array to match the value in
 		//this.distDisplay
@@ -287,45 +292,22 @@ class RoomTransitionScene extends Scene{
 				yAdjustment = this.potentialMoveTiles[pm-1].y - this.tempExtentsUp;
 				
 				context.beginPath();
-				context.fillStyle = "grey";
+				context.fillStyle = "#909087";
 				// context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
 				context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2), mapTileSize /4, 0, Math.PI *2)
 				context.fill();
 			}
 		}
 
-		//loop through and draw each of the discovered rooms in correct place relative to map on screen
-		for(var dr = 0; dr < discoveredRooms.length; dr++){
-			xAdjustment = discoveredRooms[dr].x - this.tempExtentsLeft;
-			yAdjustment = discoveredRooms[dr].y - this.tempExtentsUp;
-
-			//console.log(discoveredRooms[dr].x + ', ' + discoveredRooms[dr].y + ' -- ' + playerRoomX + ', ' + playerRoomY);
-			context.beginPath();
-			if(playerRoomX == discoveredRooms[dr].x && playerRoomY == discoveredRooms[dr].y)
-				context.fillStyle = "green";
-			else
-				context.fillStyle = "#336699";
-			context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
-			context.fill();
-		}
-
 		//draw a small highlight circle on origin room (for REF)
 		xAdjustment = 0 - this.tempExtentsLeft;
 		yAdjustment = 0 - this.tempExtentsUp;
 		context.beginPath();
-		context.fillStyle = "white";
+		context.fillStyle = "black";
 		context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2),(mapTileSize *.25), 0, Math.PI *2)
 		context.fill();
 
-		//draw a circle border around the current tile
-		xAdjustment = playerRoomX - this.tempExtentsLeft;
-		yAdjustment = playerRoomY - this.tempExtentsUp;
-		context.beginPath();
-		context.lineWidth = 2;
-		context.setLineDash([10, 4]);
-		context.strokeStyle = "yellow";
-		context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2),(mapTileSize *.55), 0, Math.PI *2)
-		context.stroke();
+		
 
 
 		//if we are forcing display of all key parts (config setting), 
@@ -337,13 +319,39 @@ class RoomTransitionScene extends Scene{
 					yAdjustment = keyParts[kpr].y - this.tempExtentsUp;
 
 					context.beginPath();
-					context.strokeStyle = keyPartColors[kpr];
+					context.fillStyle = keyPartColors[kpr];
 					context.rect(mapTilesTLStartX + (xAdjustment * mapTileSize) +1, mapTilesTLStartY + (yAdjustment * mapTileSize) +1, mapTileSize -2, mapTileSize -2)
-					context.stroke();
+					context.fill();
 				}
 				
 			}
 		}
+
+		if(config.debugDraw){
+			//draw a border around the mapTileExtents
+			context.beginPath();
+			context.strokeStyle = "blue";
+			context.rect(mapTilesTLStartX, mapTilesTLStartY, mapTileTotalWidthToDisplay, mapTileTotalHeightToDisplay)
+			context.stroke();
+
+			//draw a border around the mapDisplayArea
+			context.beginPath();
+			context.strokeStyle = "red";
+			context.rect(this.mapDisplayAreaTLX, this.mapDisplayAreaTLY, this.mapDisplayAreaWidth, this.mapDisplayAreaHeight)
+			context.stroke();
+
+			//draw a circle border around the current tile
+			xAdjustment = playerRoomX - this.tempExtentsLeft;
+			yAdjustment = playerRoomY - this.tempExtentsUp;
+			context.beginPath();
+			context.lineWidth = 2;
+			context.setLineDash([10, 4]);
+			context.strokeStyle = "yellow";
+			context.arc(mapTilesTLStartX + (xAdjustment * mapTileSize) + (mapTileSize /2), mapTilesTLStartY + (yAdjustment * mapTileSize) + (mapTileSize /2),(mapTileSize *.55), 0, Math.PI *2)
+			context.stroke();
+		}
+
+		
 		
 
 		//TEXT

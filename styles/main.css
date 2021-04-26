@@ -1,8 +1,14 @@
-:root{
-    --mainBG: #555555;
-    --canvasBG: #333333;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Spartan&display=swap');
 
-    --baseFont: 'Arial', sans-serif;
+
+:root{
+    --mainBG: #0D0C0D;
+    --canvasBG: #333333;
+    --lightColor: #909087;
+    --greenColor: #8ac80b;
+
+    --baseFont: 'Spartan', sans-serif;
+    --logoFont: 'Orbitron', sans-serif;
 
     font-size: 62.5%;
 }
@@ -15,11 +21,62 @@
 
 body{
     background-color: var(--mainBG);
+    font: 1.5rem var(--baseFont);
     text-align: center;
+    color: var(--lightColor);
+}
+
+header{
+    width: 100%;
+    /* height: 8rem; */
+    
+    /* background-color: tomato; */
+    
+    
+}
+#headerContent{
+    margin: 0 auto;
+    width: 1024px;
+    /* background-color: blue; */
+    /* display: flex; */
+    /* justify-content:space-between; */
+    height: 100%;
+    position: relative;
+}
+
+header h1{
+    font: 3rem var(--logoFont);
+    color: var(--greenColor);
+    margin-top: .2rem;
+    display: block;
+}
+
+header h2{
+    font-size: 2rem;
+    margin: .6rem;
+    display: block;
 }
 
 canvas{
     border: 1px solid white;
-    background-color: var(--canvasBG);
-    margin: 5rem auto;
+    /* background-color: var(--canvasBG); */
+    margin: 0 auto;
+}
+
+section{
+    max-width: 1024px;
+    margin: 0 auto;
+    /* background-color:violet; */
+    /* height: 4rem; */
+    position: relative;
+}
+section h1{
+    font: 2.4rem var(--logoFont);
+    margin: 2rem 0;
+    display: block;
+}
+section p{
+    margin: 2rem 0;
+    font-size: 2rem;
+    display: block;
 }

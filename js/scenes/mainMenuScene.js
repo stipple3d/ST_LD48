@@ -103,44 +103,41 @@ class MainMenuScene extends Scene{
 		//draw elements
 
 		//draw the distances out from the center point of the canvas as the "origin" and pick points for the key parts
-
-		//draw dot in the center of canvas for "origin"
-		context.beginPath();
-		context.fillStyle = 'white';
-		context.arc(canvas.width /2, canvas.height /2, 2, 0, Math.PI *2);
-		context.fill();
-
-		//choose random starting angle and draw a line 200 in that direction
-
-		console.log(keyParts.length);
-		for(var kp = 0; kp < keyParts.length; kp++){
-
-			//console.log(keyParts[kp].x);
-
-			context.beginPath();
-			context.fillStyle = 'red';
-			context.arc((canvas.width /2) + keyParts[kp].x, (canvas.height /2) + keyParts[kp].y, 8, 0, Math.PI *2);
-			context.fill();
-		}
 		
-
-
 		context.beginPath();
 		context.textAlign = 'center';
-		context.fillStyle = '#dce0e3';
-		context.font = '80px Arial';
-		context.fillText('Deeply Random', canvas.width /2, 120);
-		
-		context.beginPath();
 		context.font = '40px Arial';
 		context.fillStyle = '#8ac80b';
 		context.fillText('PLAY  [ P ]', canvas.width /2, canvas.height -40);
 
 
-		context.beginPath();
-		context.textAlign = 'left';
-		context.font = '20px Arial';
-		context.fillText('scene: ' + this.name, 30, 30);
+		if(config.debugDraw){
+
+			/* context.beginPath();
+			context.textAlign = 'center';
+			context.fillStyle = '#dce0e3';
+			context.font = '80px Arial';
+			context.fillText('Deeply Random', canvas.width /2, 120); */
+
+			//draw dot in the center of canvas for "origin"
+			context.beginPath();
+			context.fillStyle = 'white';
+			context.arc(canvas.width /2, canvas.height /2, 2, 0, Math.PI *2);
+			context.fill();
+
+			for(var kp = 0; kp < keyParts.length; kp++){
+				context.beginPath();
+				context.fillStyle = 'red';
+				context.arc((canvas.width /2) + keyParts[kp].x, (canvas.height /2) + keyParts[kp].y, 8, 0, Math.PI *2);
+				context.fill();
+			}
+
+			context.beginPath();
+			context.textAlign = 'left';
+			context.font = '20px Arial';
+			context.fillText('scene: ' + this.name, 30, 30);
+		}
+		
 
 		//_____________________
 		context.restore();

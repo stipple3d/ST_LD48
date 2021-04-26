@@ -102,7 +102,7 @@ class KeyParticlesVisual{
 
 		for(var p = 0; p < this.particles.length; p++){
 			context.beginPath();
-			context.globalAlpha = 0.2;
+			context.globalAlpha = 0.4;
 			context.fillStyle = this.color;
 			context.arc(this.particles[p].x, this.particles[p].y, this.particleRandomness *6, 0, Math.PI *2);
 			context.fill();

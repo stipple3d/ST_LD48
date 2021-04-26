@@ -20,9 +20,10 @@ const config = {
 	transitionTickDuration: 0.12,
 	mapDisplayPadding: 10,
 	forceShowKeysInTransition: true,
+	debugDraw: true,
 };
 
-const keyPartColors = ['blue', 'red', 'orange', 'cyan', 'purple', 'yellow'];
+const keyPartColors = ['#ff2a6d', '#1261d1', '#ff6e27', '#a0ffe3', '#fbf665', 'purple'];
 
 const unitDiagonalComponent = .70710678118;
 
@@ -30,9 +31,11 @@ const roomData_lrud = [
 	0,0,0,0,1,1,1,0,0,0,0,
 	0,1,1,1,1,1,1,1,1,1,0,
 	0,1,1,1,1,1,1,1,1,1,0,
+	0,1,1,1,1,1,1,1,1,1,0,
 	1,1,1,1,1,1,1,1,1,1,1,
 	1,1,1,1,1,1,1,1,1,1,1,
 	1,1,1,1,1,1,1,1,1,1,1,
+	0,1,1,1,1,1,1,1,1,1,0,
 	0,1,1,1,1,1,1,1,1,1,0,
 	0,1,1,1,1,1,1,1,1,1,0,
 	0,0,0,0,1,1,1,0,0,0,0
