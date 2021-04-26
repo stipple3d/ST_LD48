@@ -21,6 +21,11 @@ class RoomScene extends Scene{
 		this.playerCollideWidth = 48;
 		this.playerCollideHeight = 56;
 
+		this.playerTrails = [];
+		this.trailTimeTick = 0.1;
+		this.trailTimeCounter = this.trailTimeTick;
+		this.playerRadius = 24;
+
 		//TODO: **********************************
 		//		conditions for player position depending on if there is a direction coming from
 		if(playerComingFromDirection == 'left'){
@@ -44,10 +49,8 @@ class RoomScene extends Scene{
 			this.playerPosY = this.mapDisplayAreaTLY + (this.roomTileSize * 3);
 		}
 
-
 		//currently, center spawn
 		//NOTE: player Postion is the TL point (only have to adjust for collisions at B & R dirs)
-
 		
 		/* OLD (BEFORE ADDING MULT SPOAWN POINTS)
 		this.playerPosX = this.mapDisplayAreaTLX + (this.mapDisplayAreaWidth /2) - (this.playerCollideWidth /2);
@@ -161,6 +164,28 @@ class RoomScene extends Scene{
 
 		//console.log('MainMenuScene: update Running');
 
+		//decrement player trail sizes and remove if at zero
+		for(var t = this.playerTrails.length -1; t >= 0; t--){
+			this.playerTrails[t].size --;
+			if(this.playerTrails[t].size <= 0){
+				this.playerTrails.pop();
+			}
+		}
+
+		//handle player trails
+		this.trailTimeCounter -= _deltaTime;
+		if(this.trailTimeCounter <= 0){
+			//reset counter and handle tick
+			this.trailTimeCounter = this.trailTimeTick;
+			let tObj = new Object();
+			tObj.centerX = this.playerPosX + (this.playerCollideWidth /2);
+			tObj.centerY = this.playerPosY + (this.playerCollideHeight /2);
+			tObj.size = this.playerRadius -2;
+			this.playerTrails.push(tObj);
+		}
+		console.log('trails: ' + this.playerTrails.length);
+
+
 		//call update on any keyPartVisual classes in the array
 		for(var kpv = 0; kpv < this.keyParticalVisuals.length; kpv++){
 			this.keyParticalVisuals[kpv].update(_deltaTime);
@@ -208,6 +233,9 @@ class RoomScene extends Scene{
 			potMoveY = this.speedFactor * _deltaTime * this.yInput;
 			
 		}
+
+		
+		
 
 		this.statusDisplayText = potMoveX + ', ' + potMoveY;
 
@@ -389,6 +417,12 @@ class RoomScene extends Scene{
 			context.fillStyle = '#8ac80b';
 			context.fillText(this.statusDisplayText, canvas.width /2, canvas.height /2 - 32);
 
+			//draw player collision box
+			context.beginPath();
+			context.strokeStyle = "red";
+			context.rect(this.playerPosX, this.playerPosY, this.playerCollideWidth, this.playerCollideHeight)
+			context.stroke();
+
 		}
 
 		//call render on any keyPartVisual classes in the array
@@ -396,12 +430,22 @@ class RoomScene extends Scene{
 			this.keyParticalVisuals[kpv].render();
 		}
 
+		console.log('trailsToRender: ' + this.playerTrails.length);
+		//render player trails
+		for(var t = 0; t < this.playerTrails.length; t++){
+			context.beginPath();
+			context.fillStyle = "grey";
+			context.arc(this.playerTrails.x, this.playerTrails.y, this.playerTrails.size, 0, Math.PI *2)
+			context.fill();
+		}
 
-		//draw player collision box
+		//draw player circle
 		context.beginPath();
-		context.strokeStyle = "red";
-		context.rect(this.playerPosX, this.playerPosY, this.playerCollideWidth, this.playerCollideHeight)
-		context.stroke();
+		context.fillStyle = "#8ac80b";
+		context.arc(this.playerPosX + (this.playerCollideWidth /2), this.playerPosY + (this.playerCollideHeight /2), this.playerRadius, 0, Math.PI *2)
+		context.fill();
+
+		
 
 
 		context.beginPath();

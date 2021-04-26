@@ -142,10 +142,10 @@ class RoomTransitionScene extends Scene{
 		this.rowsHighExtended = (this.tempExtentsDown - this.tempExtentsUp) +1;
 		this.colsWideExtended = (this.tempExtentsRight - this.tempExtentsLeft) +1;
 
-		this.mapDisplayAreaWidth = 720;
-		this.mapDisplayAreaHeight = 540;
-		this.mapDisplayAreaTLX = 40;
-		this.mapDisplayAreaTLY = 90;
+		this.mapDisplayAreaWidth = 1008;
+		this.mapDisplayAreaHeight = 648;
+		this.mapDisplayAreaTLX = 8;
+		this.mapDisplayAreaTLY = 70;
 
 		//start out distance display value as ZERO
 		//(ZERO is not a possible amount, but this will be used by counter and animations
@@ -368,10 +368,10 @@ class RoomTransitionScene extends Scene{
 		
 		if(this.displayComplete){
 			context.beginPath();
-			context.font = '20px Arial';
+			context.font = '40px Arial';
 			context.textAlign = 'center';
 			context.fillStyle = '#8ac80b';
-			context.fillText('CONTINUE [ SPACE ]', canvas.width /2, canvas.height -8);
+			context.fillText('PRESS [ SPACE ] TO CONTINUE', canvas.width /2, canvas.height -10);
 		}
 		
 		context.beginPath();
@@ -390,26 +390,27 @@ class RoomTransitionScene extends Scene{
 
 		//display BG BOXES
 		context.beginPath();
-		context.strokeStyle = "#FFFFFF";
-		context.rect(250, 10, 80, 80);
+		context.strokeStyle = "grey";
+		context.rect(380, 10, 80, 65);
 		context.stroke();
 
 		context.beginPath();
-		context.strokeStyle = "#FFFFFF";
-		context.rect(500, 10, 160, 80);
+		context.strokeStyle = "grey";
+		context.rect(650, 10, 160, 65);
 		context.stroke();
 
 		//display text
 		context.font = '40px Arial';
 		context.fillStyle = '#FFFFFF';
 		context.textAlign = 'right';
-		context.fillText('MOVING', 240, 70);
-		context.fillText('ROOMS', 490, 70);
-		context.font = '60px Arial';
+		context.fillText('MOVING', 370, 60);
+		context.fillText('ROOMS', 630, 60);
+		// context.font = '60px Arial';
 		context.fillStyle = '#8ac80b';
 		context.textAlign = 'center';
-		context.fillText(this.distDisplay.toString(), 290, 70);
-		context.fillText(playerMoveDir, 580, 70);
+		context.fillText(this.distDisplay.toString(), 420, 60);
+		
+		context.fillText(playerMoveDir.toUpperCase(), 730, 60);
 
 		//_____________________
 		context.restore();

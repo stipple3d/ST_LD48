@@ -11,7 +11,7 @@ class KeyParticlesVisual{
         this.color = keyPartColors[this.keyPartIndex];
 
 		this.vectorTowardsKeyPartFromRoom = new Vector2D(keyParts[this.keyPartIndex].x - this.roomX, keyParts[this.keyPartIndex].y - this.roomY);
-		console.log('keypartVis ' + this.keyPartIndex + ' dist: ' + this.vectorTowardsKeyPartFromRoom.getMag() + ', color: ' + this.color + ', comps: ' + this.vectorTowardsKeyPartFromRoom.x + ', ' + this.vectorTowardsKeyPartFromRoom.y);
+		// console.log('keypartVis ' + this.keyPartIndex + ' dist: ' + this.vectorTowardsKeyPartFromRoom.getMag() + ', color: ' + this.color + ', comps: ' + this.vectorTowardsKeyPartFromRoom.x + ', ' + this.vectorTowardsKeyPartFromRoom.y);
 		this.normalizedDirection = this.vectorTowardsKeyPartFromRoom.getNormalized();
 		//console.log('keypartVis ' + this.keyPartIndex + ', normVector: ' + this.normalizedDirection.x +', ' + this.normalizedDirection.y);
 
@@ -77,7 +77,7 @@ class KeyParticlesVisual{
 
 		//update each partical by moving in direction and also modifying postition by a randomness factor
 		for(var p = 0; p < this.particles.length; p++){
-			console.log(this.particles[p].x + ', ' + this.particles[p].y);
+			// console.log(this.particles[p].x + ', ' + this.particles[p].y);
 
 			ranX = (    (Math.random() * this.randomRange) - (this.randomRange /2)    ) * this.particleRandomness;
 			ranY = (    (Math.random() * this.randomRange) - (this.randomRange /2)    ) * this.particleRandomness;

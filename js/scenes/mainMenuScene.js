@@ -30,7 +30,7 @@ class MainMenuScene extends Scene{
 		keyParts = [];
 
 		const minDistanceForKeyPart = 6;
-		const maxDistanceForKeyPart = 30;
+		const maxDistanceForKeyPart = 20;
 		const numKeyParts = 5;
 		// const minDistBetweenKeyParts = 100;
 		const minRotBetweenKeyParts = 60;
@@ -121,7 +121,7 @@ class MainMenuScene extends Scene{
 		context.font = '40px Arial';
 		context.fillStyle = '#8ac80b';
 		context.fillText('EASY MODE  [ E ]', canvas.width /2, 200);
-		context.fillText('HARD MODE  [ H ]', canvas.width /2, 500);
+		context.fillText('HARD MODE  [ H ]', canvas.width /2, 450);
 
 		context.beginPath();
 		// context.textAlign = 'left';
@@ -129,8 +129,9 @@ class MainMenuScene extends Scene{
 		context.font = '30px Arial';
 		context.fillText('Hinting toward the collection rooms is provided in rooms', canvas.width /2, 250);
 		context.fillText('and on the transition screens between rooms.', canvas.width /2, 300);
-		context.fillText('Hinting toward the collection rooms is provided', canvas.width /2, 550);
-		context.fillText('ONLY IN THE ROOMS.', canvas.width /2, 600);
+		context.fillText('Hinting toward the collection rooms is provided', canvas.width /2, 500);
+		context.fillText('ONLY IN THE ROOMS.', canvas.width /2, 550);
+		context.fillText('( SUGGESTION: PLAY EASY FIRST! )', canvas.width /2, 650);
 
 
 		if(config.debugDraw){
