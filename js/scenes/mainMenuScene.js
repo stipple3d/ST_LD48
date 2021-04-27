@@ -120,8 +120,8 @@ class MainMenuScene extends Scene{
 		context.textAlign = 'center';
 		context.font = '40px Arial';
 		context.fillStyle = '#8ac80b';
-		context.fillText('EASY MODE  [ E ]', canvas.width /2, 200);
-		context.fillText('HARD MODE  [ H ]', canvas.width /2, 450);
+		context.fillText('EASY MODE  [ PRESS E ]', canvas.width /2, 200);
+		context.fillText('HARD MODE  [ PRESS H ]', canvas.width /2, 450);
 
 		context.beginPath();
 		// context.textAlign = 'left';
@@ -132,6 +132,10 @@ class MainMenuScene extends Scene{
 		context.fillText('Hinting toward the collection rooms is provided', canvas.width /2, 500);
 		context.fillText('ONLY IN THE ROOMS.', canvas.width /2, 550);
 		context.fillText('( SUGGESTION: PLAY EASY FIRST! )', canvas.width /2, 650);
+
+		context.font = '25px Arial';
+		context.fillStyle = '#8ac80b';
+		context.fillText('NOTE: If keys are not working, try clicking in browswer window', canvas.width /2, 725);
 
 
 		if(config.debugDraw){
