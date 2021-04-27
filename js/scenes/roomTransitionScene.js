@@ -37,19 +37,23 @@ class RoomTransitionScene extends Scene{
 		}
 		else if(this.distFromOriginInDirChosen >= 3 && this.distFromOriginInDirChosen < 5){
 			this.minMove = 1;
-			this.maxMove = 4;
+			this.maxMove = 3;
 		}
 		else if(this.distFromOriginInDirChosen >= 5 && this.distFromOriginInDirChosen < 7){
 			this.minMove = 1;
-			this.maxMove = 6;
+			this.maxMove = 4;
 		}
 		else if(this.distFromOriginInDirChosen >= 7 && this.distFromOriginInDirChosen < 9){
 			this.minMove = 1;
-			this.maxMove = 8;
+			this.maxMove = 5;
 		}
-		else if(this.distFromOriginInDirChosen >= 9){
+		else if(this.distFromOriginInDirChosen >= 9 && this.distFromOriginInDirChosen < 11){
 			this.minMove = 1;
-			this.maxMove = 12;
+			this.maxMove = 6;
+		}
+		else if(this.distFromOriginInDirChosen >= 11){
+			this.minMove = 1;
+			this.maxMove = 9;
 		}
 		else{
 			console.log('unexpected value for distFromOriginInDirChosen');

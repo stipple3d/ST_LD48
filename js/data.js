@@ -9,6 +9,7 @@ const config = {
 		{name: "menu", class: MainMenuScene},
 		{name: "room", class: RoomScene},
 		{name: "roomTransition", class: RoomTransitionScene},
+		{name: "win", class: WinScene},
 		// {name: "battle", class: BattleScene}
 	],
 	initSceneIndex: 0,
@@ -24,6 +25,7 @@ const config = {
 };
 
 const keyPartColors = ['#ff2a6d', '#1261d1', '#ff6e27', '#a0ffe3', '#fbf665', 'purple'];
+const keyPartNames = ['#ff2a6d', '#1261d1', '#ff6e27', '#a0ffe3', '#fbf665', 'purple'];
 
 const unitDiagonalComponent = .70710678118;
 

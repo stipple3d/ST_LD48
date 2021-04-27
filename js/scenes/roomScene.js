@@ -26,6 +26,30 @@ class RoomScene extends Scene{
 		this.trailTimeCounter = this.trailTimeTick;
 		this.playerRadius = 24;
 
+		this.displayFoundMessage = false;
+		this.weAreInKeyRoomIndex = -1;
+		for(var kp = 0; kp < keyParts.length; kp++){
+			if(keyParts[kp].x == playerRoomX && keyParts[kp].y == playerRoomY){
+				this.weAreInKeyRoomIndex = kp;
+				if(keyParts[kp].found != true){
+					keyParts[kp].found = true;
+					this.displayFoundMessage = true;
+				}
+				break;
+			}
+		}
+
+		this.partsLeft = 5;
+		for(var kp = 0; kp < keyParts.length; kp++){
+			if(keyParts[kp].found == true){
+				this.partsLeft --;
+			}
+		}
+
+		if(this.partsLeft <= 0){
+			sceneManager.gotoScene({name: 'win'});
+		}
+
 		//TODO: **********************************
 		//		conditions for player position depending on if there is a direction coming from
 		if(playerComingFromDirection == 'left'){
@@ -183,7 +207,7 @@ class RoomScene extends Scene{
 			tObj.size = this.playerRadius -2;
 			this.playerTrails.push(tObj);
 		}
-		console.log('trails: ' + this.playerTrails.length);
+		// console.log('trails: ' + this.playerTrails.length);
 
 
 		//call update on any keyPartVisual classes in the array
@@ -379,7 +403,12 @@ class RoomScene extends Scene{
 
 				if(roomData_lrud[currentDataIndex] == 0){
 					// context.globalAlpha = 1;
-					context.fillStyle = "#909087";
+					if(this.weAreInKeyRoomIndex == -1){
+						context.fillStyle = "#909087";
+					}
+					else{
+						context.fillStyle = keyPartColors[this.weAreInKeyRoomIndex];
+					}
 				}
 				else{
 					// context.globalAlpha = .3;
@@ -430,7 +459,7 @@ class RoomScene extends Scene{
 			this.keyParticalVisuals[kpv].render();
 		}
 
-		console.log('trailsToRender: ' + this.playerTrails.length);
+		// console.log('trailsToRender: ' + this.playerTrails.length);
 		//render player trails
 		for(var t = 0; t < this.playerTrails.length; t++){
 			context.beginPath();
@@ -446,6 +475,20 @@ class RoomScene extends Scene{
 		context.fill();
 
 		
+		if(this.displayFoundMessage){
+			context.beginPath();
+			context.font = '40px Arial';
+			context.textAlign = 'center';
+			if(this.weAreInKeyRoomIndex == -1){
+				context.fillStyle = 'black';
+			}
+			else{
+				context.fillStyle = keyPartColors[this.weAreInKeyRoomIndex];
+			}
+			
+			context.fillText('YOU FOUND ELEMENT # ' + this.weAreInKeyRoomIndex, canvas.width /2, canvas.height /2 - 174);
+			// context.fillText('ELEMENT #' + this.weAreInKeyRoomIndex, canvas.width /2, canvas.height /2 + 20);
+		}
 
 
 		context.beginPath();

@@ -29,8 +29,8 @@ class MainMenuScene extends Scene{
 		//init the keyParts array & generate the locations of each part (the rooms it is in)
 		keyParts = [];
 
-		const minDistanceForKeyPart = 6;
-		const maxDistanceForKeyPart = 20;
+		const minDistanceForKeyPart = 3;//6
+		const maxDistanceForKeyPart = 12;//20
 		const numKeyParts = 5;
 		// const minDistBetweenKeyParts = 100;
 		const minRotBetweenKeyParts = 60;
@@ -58,7 +58,7 @@ class MainMenuScene extends Scene{
 			currTestX = Math.floor(Math.cos(currTestRotation * (Math.PI/180)) * currTestDist);
 			currTestY = Math.floor(Math.sin(currTestRotation * (Math.PI/180)) * currTestDist);
 
-			console.log(currTestX + ', ' + currTestY);
+			// console.log(currTestX + ', ' + currTestY);
 
 			//push the object into the keyParts array
 			currObj = new Object();
