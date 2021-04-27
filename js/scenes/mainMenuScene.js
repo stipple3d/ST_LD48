@@ -135,7 +135,7 @@ class MainMenuScene extends Scene{
 
 		context.font = '25px Arial';
 		context.fillStyle = '#8ac80b';
-		context.fillText('NOTE: If keys are not working, try clicking in browswer window', canvas.width /2, 725);
+		context.fillText('NOTE: If keys are not working, try clicking in browser window', canvas.width /2, 725);
 
 
 		if(config.debugDraw){
